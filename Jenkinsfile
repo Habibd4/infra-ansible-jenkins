@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout Source') {
             steps {
-                git 'https://github.com/Habibd4/infra-ansible-jenkins.git'
+                git branch: 'main', url: 'https://github.com/Habibd4/infra-ansible-jenkins.git'
             }
         }
 
