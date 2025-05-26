@@ -1,17 +1,17 @@
 - name: Install nginx
   hosts: web
-  become: true
+  become: yes
   tasks:
-    - name: Update apt cache
+    - name: Update APT repo
       apt:
         update_cache: yes
 
-    - name: Install nginx
+    - name: Install NGINX
       apt:
         name: nginx
         state: present
 
-    - name: Start nginx
+    - name: Start NGINX
       service:
         name: nginx
         state: started
