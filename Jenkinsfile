@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment {
+        ANSIBLE_FORCE_COLOR = 'true'
+    }
     stages {
         stage('Checkout Source') {
             steps {
@@ -8,14 +10,16 @@ pipeline {
             }
         }
 
+        stage('Print Working Directory') {
+            steps {
+                sh 'pwd && ls -lah'
+            }
+        }
+        
         stage('Run Ansible Playbook') {
             steps {
-                sshagent (credentials: ['linuxmint']) {
-                    sh '''
-                        pwd
-                        ls -lah
-                        ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i host.ini deploy.yml
-                    '''
+                sshagent(['ansible-ssh-key']) {
+                    sh 'ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i host.ini deploy.yml || exit 1'
                 }
             }
         }
